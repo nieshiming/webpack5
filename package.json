@@ -19,6 +19,9 @@
       "git add"
     ]
   },
+  "commitlint": {
+    "extends": ["@commitlint/config-conventional"]
+  },
   "keywords": [],
   "license": "ISC",
   "dependencies": {
