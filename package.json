@@ -23,7 +23,6 @@
   },
   "keywords": [],
   "license": "ISC",
-  "sideEffects": false,
   "dependencies": {
     "@babel/runtime": "^7.15.3",
     "@babel/runtime-corejs3": "^7.15.3",
