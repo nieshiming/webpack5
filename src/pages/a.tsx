@@ -4,6 +4,7 @@ import { RouteComponentProps } from 'react-router-dom'
 
 import { getInfo } from '@/utils'
 import '../assets/css/index.less'
+import './common.less'
 
 type IProps = RouteComponentProps
 
@@ -15,7 +16,7 @@ const Main = (props: IProps) => {
   getInfo('getInfo')
 
   return (
-    <Card title="PageA">
+    <Card title="PageA" className="levi">
       <Button onClick={viewDetail} type="primary">
         跳转B
       </Button>

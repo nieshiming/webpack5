@@ -76,9 +76,9 @@ module.exports = merge(config.base, {
      * chunkFileName: 按需加载css
      * */
     new MiniCssExtractPlugin({
+      ignoreOrder: true,
       filename: 'css/[contenthash:8].css',
       chunkFilename: 'css/[contenthash:8].css',
-      ignoreOrder: true,
     }),
     new OptimizeCSSAssetsPlugin(),
     // new BundleAnalyzerPlugin(),

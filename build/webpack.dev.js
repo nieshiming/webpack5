@@ -7,7 +7,6 @@ const config = require('./webpack.base')
 const notifier = require('node-notifier')
 const { merge } = require('webpack-merge')
 const ESLintPlugin = require('eslint-webpack-plugin')
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
@@ -16,6 +15,7 @@ const { SERVER_ENV, PORT, HOST } = process.env
 module.exports = merge(config.base, {
   mode: 'development',
   devtool: 'cheap-module-source-map',
+  cache: true,
   devServer: {
     host: HOST,
     port: PORT,
@@ -41,7 +41,6 @@ module.exports = merge(config.base, {
       exclude: ['node_modules'],
       context: config.resolvePath('../src'),
     }),
-    new HardSourceWebpackPlugin(),
     new ReactRefreshWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new FriendlyErrorsWebpackPlugin({
