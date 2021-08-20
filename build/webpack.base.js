@@ -1,6 +1,5 @@
 const path = require('path')
 const WebpackBar = require('webpackbar')
-const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -88,12 +87,6 @@ module.exports = {
         collapseWhitespace: true,
       },
       template: resolvePath('../public/index.html'),
-    }),
-    new ESLintPlugin({
-      threads: 4,
-      extensions,
-      exclude: ['node_modules'],
-      context: resolvePath('../src'),
     }),
   ],
 }

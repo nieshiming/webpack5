@@ -6,6 +6,7 @@ const webpack = require('webpack')
 const base = require('./webpack.base')
 const notifier = require('node-notifier')
 const { merge } = require('webpack-merge')
+const ESLintPlugin = require('eslint-webpack-plugin')
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
@@ -33,6 +34,12 @@ module.exports = merge(base, {
       'process.env': JSON.stringify({
         SERVER_ENV,
       }),
+    }),
+    new ESLintPlugin({
+      threads: 4,
+      extensions,
+      exclude: ['node_modules'],
+      context: resolvePath('../src'),
     }),
     new HardSourceWebpackPlugin(),
     new ReactRefreshWebpackPlugin(),
