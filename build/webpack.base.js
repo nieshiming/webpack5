@@ -9,85 +9,89 @@ const extensions = ['.js', '.ts', '.jsx', '.tsx']
 const resolvePath = (src) => path.resolve(__dirname, src)
 
 module.exports = {
-  context: path.resolve(__dirname),
-  entry: {
-    app: '../src/index.tsx',
-  },
-  output: {
-    publicPath: '/',
-    filename: '[name].js',
-    chunkFilename: '[name].bundle.js',
-    path: resolvePath('../dist'),
-  },
-  resolve: {
-    extensions,
-    alias: {
-      '@': resolvePath('../src'),
+  extensions,
+  resolvePath,
+  base: {
+    context: path.resolve(__dirname),
+    entry: {
+      app: '../src/index.tsx',
     },
-    modules: [resolvePath('../src/'), 'node_modules'],
-  },
-  module: {
-    rules: [
-      {
-        test: /\.less$/i,
-        use: [
-          BABEL_ENV === 'production'
-            ? {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: './' },
-              }
-            : 'style-loader',
-          'css-loader',
-          {
-            loader: 'less-loader',
-            options: {
-              lessOptions: { javascriptEnabled: true },
-            },
-          },
-        ],
-        sideEffects: true,
+    output: {
+      publicPath: '/',
+      filename: '[name].js',
+      chunkFilename: '[name].bundle.js',
+      path: resolvePath('../dist'),
+    },
+    resolve: {
+      extensions,
+      alias: {
+        '@': resolvePath('../src'),
       },
-      {
-        test: /\.(png|jpe?g|gif)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[contentHash:6].[ext]',
+      modules: [resolvePath('../src/'), 'node_modules'],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.less$/i,
+          use: [
+            BABEL_ENV === 'production'
+              ? {
+                  loader: MiniCssExtractPlugin.loader,
+                  options: { publicPath: './' },
+                }
+              : 'style-loader',
+            'css-loader',
+            {
+              loader: 'less-loader',
+              options: {
+                lessOptions: { javascriptEnabled: true },
+              },
             },
-          },
-        ],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.(j|t)sx?$/i,
-        use: [
-          'thread-loader',
-          {
-            loader: 'babel-loader',
-            options: {
-              cacheDirectory: true,
+          ],
+          sideEffects: true,
+        },
+        {
+          test: /\.(png|jpe?g|gif)$/i,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[contentHash:6].[ext]',
+              },
             },
-          },
-        ],
-        exclude: /node_modules/,
-        include: resolvePath('../src'),
-      },
+          ],
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.(j|t)sx?$/i,
+          use: [
+            'thread-loader',
+            {
+              loader: 'babel-loader',
+              options: {
+                cacheDirectory: true,
+              },
+            },
+          ],
+          exclude: /node_modules/,
+          include: resolvePath('../src'),
+        },
+      ],
+    },
+    plugins: [
+      new WebpackBar({
+        name: 'AHS-webpack',
+      }),
+      new CleanWebpackPlugin(),
+      new HtmlWebpackPlugin({
+        inject: true,
+        title: 'levi',
+        minify: {
+          removeComments: true,
+          collapseWhitespace: true,
+        },
+        template: resolvePath('../public/index.html'),
+      }),
     ],
   },
-  plugins: [
-    new WebpackBar({
-      name: 'AHS-webpack',
-    }),
-    new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      inject: true,
-      title: 'levi',
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-      },
-      template: resolvePath('../public/index.html'),
-    }),
-  ],
 }
