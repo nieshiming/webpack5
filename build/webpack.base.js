@@ -45,6 +45,7 @@ module.exports = {
             },
           },
         ],
+        sideEffects: true,
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
