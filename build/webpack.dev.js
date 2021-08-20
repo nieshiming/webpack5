@@ -3,7 +3,7 @@ const path = require('path')
 const chalk = require('chalk')
 const IP = require('ip').address()
 const webpack = require('webpack')
-const base = require('./webpack.base')
+const config = require('./webpack.base')
 const notifier = require('node-notifier')
 const { merge } = require('webpack-merge')
 const ESLintPlugin = require('eslint-webpack-plugin')
@@ -13,7 +13,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 
 const { SERVER_ENV, PORT, HOST } = process.env
 
-module.exports = merge(base, {
+module.exports = merge(config.base, {
   mode: 'development',
   devtool: 'cheap-module-source-map',
   devServer: {
@@ -23,7 +23,7 @@ module.exports = merge(base, {
     quiet: true,
     compress: true,
     historyApiFallback: true,
-    contentBase: path.resolve(__dirname, '../dist'),
+    contentBase: config.resolvePath('../dist'),
     stats: 'minimal',
   },
   module: {
@@ -37,9 +37,9 @@ module.exports = merge(base, {
     }),
     new ESLintPlugin({
       threads: 4,
-      extensions,
+      extensions: config.extensions,
       exclude: ['node_modules'],
-      context: resolvePath('../src'),
+      context: config.resolvePath('../src'),
     }),
     new HardSourceWebpackPlugin(),
     new ReactRefreshWebpackPlugin(),
