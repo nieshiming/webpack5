@@ -4,7 +4,7 @@ const config = require('./webpack.base')
 const { merge } = require('webpack-merge')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const { SERVER_ENV } = process.env
@@ -34,6 +34,7 @@ module.exports = merge(config.base, {
         },
         extractComments: false,
       }),
+      new CssMinimizerPlugin(),
     ],
     splitChunks: {
       chunks: 'all',
@@ -97,7 +98,6 @@ module.exports = merge(config.base, {
       filename: 'css/[contenthash:8].css',
       chunkFilename: 'css/[contenthash:8].css',
     }),
-    new OptimizeCSSAssetsPlugin(),
     // new BundleAnalyzerPlugin(),
   ],
 })
