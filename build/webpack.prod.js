@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const config = require('./webpack.base')
 const { merge } = require('webpack-merge')
+const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
@@ -13,14 +14,30 @@ module.exports = merge(config.base, {
   output: {
     publicPath: '/',
     path: path.resolve(__dirname, '../dist'),
-    filename: '[name]_[chunkhash:8].js',
+    filename: 'js/[name]_[chunkhash:8].js',
     chunkFilename: 'js/[name]_[chunkhash:8].js',
   },
   optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        test: /\.js(\?.*)?$/i,
+        parallel: true,
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+          compress: {
+            drop_console: true,
+            drop_debugger: true,
+          },
+        },
+        extractComments: false,
+      }),
+    ],
     splitChunks: {
       chunks: 'all',
       minChunks: 1,
-      maxSize: 0,
       minSize: 10240,
       maxAsyncRequests: 5,
       maxInitialRequests: 3,
